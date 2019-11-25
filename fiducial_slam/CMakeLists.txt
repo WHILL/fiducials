@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   fiducial_msgs
   genmsg
+  aruco
 )
 
 find_package(OpenCV REQUIRED)
@@ -43,13 +44,19 @@ catkin_package(INCLUDE_DIRS include
   DEPENDS OpenCV)
 
 include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${aruco_INCLUDE_DIRS})
 
 add_executable(fiducial_slam src/fiducial_slam.cpp
                src/map.cpp src/transform_with_variance.cpp)
 add_dependencies(fiducial_slam ${${PROJECT_NAME}_EXPORTED_TARGETS}
                  ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(fiducial_slam ${catkin_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(
+  fiducial_slam
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBS}
+  ${aruco_LIBRARIES}
+  )
 
 #############
 ## Install ##

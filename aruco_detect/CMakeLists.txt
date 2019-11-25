@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   fiducial_msgs
   dynamic_reconfigure
+  aruco
 )
 
 find_package(OpenCV REQUIRED)
@@ -30,13 +31,19 @@ add_definitions(-std=c++11)
 
 include_directories(${catkin_INCLUDE_DIRS})
 include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${aruco_INCLUDE_DIRS})
 
 add_executable(aruco_detect src/aruco_detect.cpp)
 
 add_dependencies(aruco_detect ${${PROJECT_NAME}_EXPORTED_TARGETS}
                  ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(aruco_detect ${catkin_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(
+        aruco_detect
+        ${catkin_LIBRARIES}
+        ${OpenCV_LIBS}
+        ${aruco_LIBRARIES}
+        )
 
 #############
 ## Install ##

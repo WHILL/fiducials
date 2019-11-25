@@ -23,5 +23,6 @@
   <depend>cv_bridge</depend>
   <depend>fiducial_msgs</depend>
   <depend>dynamic_reconfigure</depend>
+  <depend>aruco</depend>
 
 </package>
