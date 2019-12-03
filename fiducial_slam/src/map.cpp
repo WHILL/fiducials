@@ -91,12 +91,12 @@ Map::Map(ros::NodeHandle &nh) : tfBuffer(ros::Duration(30.0)) {
     listener = make_unique<tf2_ros::TransformListener>(tfBuffer);
 
     robotPosePub =
-        ros::Publisher(nh.advertise<geometry_msgs::PoseWithCovarianceStamped>("/fiducial_pose", 1));
+        ros::Publisher(nh.advertise<geometry_msgs::PoseWithCovarianceStamped>("fiducial_pose", 1));
     cameraPosePub = ros::Publisher(
-        nh.advertise<geometry_msgs::PoseWithCovarianceStamped>("/fiducial_slam/camera_pose", 1));
+        nh.advertise<geometry_msgs::PoseWithCovarianceStamped>("fiducial_slam/camera_pose", 1));
 
-    markerPub = ros::Publisher(nh.advertise<visualization_msgs::Marker>("/fiducials", 100));
-    mapPub = ros::Publisher(nh.advertise<fiducial_msgs::FiducialMapEntryArray>("/fiducial_map", 1));
+    markerPub = ros::Publisher(nh.advertise<visualization_msgs::Marker>("fiducials", 100));
+    mapPub = ros::Publisher(nh.advertise<fiducial_msgs::FiducialMapEntryArray>("fiducial_map", 1));
 
     clearSrv = nh.advertiseService("clear_map", &Map::clearCallback, this);
     addSrv = nh.advertiseService("add_fiducial", &Map::addFiducialCallback, this);

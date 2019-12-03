@@ -126,9 +126,9 @@ FiducialSlam::FiducialSlam(ros::NodeHandle &nh) : fiducialMap(nh) {
         nh.param<double>("pose_error_theshold", errorThreshold, 1.0);
 
         ftPub = ros::Publisher(
-            nh.advertise<fiducial_msgs::FiducialTransformArray>("/fiducial_transforms", 1));
+            nh.advertise<fiducial_msgs::FiducialTransformArray>("fiducial_transforms", 1));
     } else {
-        ft_sub = nh.subscribe("/fiducial_transforms", 1, &FiducialSlam::transformCallback, this);
+        ft_sub = nh.subscribe("fiducial_transforms", 1, &FiducialSlam::transformCallback, this);
     }
 
     ROS_INFO("Fiducial Slam ready");
