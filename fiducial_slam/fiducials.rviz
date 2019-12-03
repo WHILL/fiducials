@@ -34,7 +34,7 @@ Visualization Manager:
   Displays:
     - Class: rviz/Marker
       Enabled: true
-      Marker Topic: /fiducials
+      Marker Topic: /marker/fiducials
       Name: Fiducials
       Namespaces:
         fiducial: true
@@ -102,7 +102,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /fiducial_images
+      Image Topic: /marker/fiducial_images
       Max Value: 1
       Median window: 5
       Min Value: 0
