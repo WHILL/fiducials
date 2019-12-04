@@ -34,7 +34,7 @@ Visualization Manager:
   Displays:
     - Class: rviz/Marker
       Enabled: true
-      Marker Topic: /marker/fiducials
+      Marker Topic: /marker/fiducial_slam/fiducials
       Name: Fiducials
       Namespaces:
         fiducial: true
