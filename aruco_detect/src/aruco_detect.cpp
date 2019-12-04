@@ -99,6 +99,9 @@ class FiducialsNode {
     cv::Ptr<aruco::DetectorParameters> detectorParams;
     cv::Ptr<aruco::Dictionary> dictionary;
 
+    ros::Time passedImageTime;
+    double subscribeImageInterval;
+
     void handleIgnoreString(const std::string& str);
 
     void estimatePoseSingleMarkers(const vector<int> &ids,
@@ -317,6 +320,14 @@ void FiducialsNode::imageCallback(const sensor_msgs::ImageConstPtr & msg) {
         return; //return without doing anything
     }
 
+    //check interval
+    ros::Time nowTime = ros::Time::now();
+    if(subscribeImageInterval > 0 && (nowTime - passedImageTime) < ros::Duration(subscribeImageInterval)){
+        return;
+    }
+    passedImageTime = nowTime;
+
+  
     ROS_INFO("Got image %d", msg->header.seq);
     frameNum++;
 
@@ -618,6 +629,9 @@ FiducialsNode::FiducialsNode() : nh(), pnh("~"), it(nh)
     pnh.param<double>("perspectiveRemoveIgnoredMarginPerCell", detectorParams->perspectiveRemoveIgnoredMarginPerCell, 0.13);
     pnh.param<int>("perspectiveRemovePixelPerCell", detectorParams->perspectiveRemovePixelPerCell, 8);
     pnh.param<double>("polygonalApproxAccuracyRate", detectorParams->polygonalApproxAccuracyRate, 0.01); /* default 0.05 */
+
+    pnh.param<double>("subscribe_image_interval", subscribeImageInterval, 0.2);
+    passedImageTime = ros::Time::now();
 
     ROS_INFO("Aruco detection ready");
 }
