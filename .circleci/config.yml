@@ -13,6 +13,12 @@ jobs:
       - checkout
 
       - run:
+          name: Checkout ros_marker_localization 
+          command: |
+            cd ~/catkin_ws/src
+            git clone -b melodic-devel git@github.com:WHILL/ros_marker_localization.git
+
+      - run:
           name: Resolve dependencies
           command: |
            apt-get update -qq
