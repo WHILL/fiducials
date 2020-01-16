@@ -102,9 +102,11 @@ public:
 
     ros::ServiceServer clearSrv;
     ros::ServiceServer addSrv;
+    ros::ServiceServer reloadSrv;
     bool clearCallback(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res);
     bool addFiducialCallback(fiducial_slam::AddFiducial::Request &req,
                              fiducial_slam::AddFiducial::Response &res);
+    bool reloadCallback(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res);
 
     std::string mapFilename;
     std::string mapFrame;
