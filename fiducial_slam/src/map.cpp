@@ -101,6 +101,7 @@ Map::Map(ros::NodeHandle &nh) : tfBuffer(ros::Duration(30.0)) {
     clearSrv = nh.advertiseService("clear_map", &Map::clearCallback, this);
     addSrv = nh.advertiseService("add_fiducial", &Map::addFiducialCallback, this);
     reloadSrv = nh.advertiseService("reload_map", &Map::reloadCallback, this);
+    saveSrv = nh.advertiseService("save_map", &Map::saveCallback, this);
 
     nh.param<std::string>("map_frame", mapFrame, "map");
     nh.param<std::string>("odom_frame", odomFrame, "odom");
@@ -827,8 +828,14 @@ bool Map::addFiducialCallback(fiducial_slam::AddFiducial::Request &req,
 
 bool Map::reloadCallback(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res)
 {
-   ROS_INFO("Request to reload map save ->shutdown");
-   saveMap();
+   ROS_INFO("Request to reload ->shutdown");
    ros::shutdown();
+   return true;
+}
+
+bool Map::saveCallback(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res)
+{
+   ROS_INFO("Request to save map");
+   saveMap();
    return true;
 }
