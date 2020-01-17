@@ -827,7 +827,8 @@ bool Map::addFiducialCallback(fiducial_slam::AddFiducial::Request &req,
 
 bool Map::reloadCallback(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res)
 {
-   ROS_INFO("Request to reload map->shutdown");
+   ROS_INFO("Request to reload map save ->shutdown");
+   saveMap();
    ros::shutdown();
    return true;
 }
