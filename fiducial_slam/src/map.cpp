@@ -48,6 +48,7 @@
 
 
 static double systematic_error = 0.01;
+static int max_mapping_fid = 0;
 
 // Constructor for observation
 Observation::Observation(int fid, const tf2::Stamped<TransformWithVariance> &camFid) {
@@ -113,6 +114,7 @@ Map::Map(ros::NodeHandle &nh) : tfBuffer(ros::Duration(30.0)) {
     nh.param<double>("future_date_transforms", future_date_transforms, 0.1);
     nh.param<bool>("publish_6dof_pose", publish_6dof_pose, false);
     nh.param<bool>("read_only_map", readOnly, false);
+    nh.param<int>("max_mapping_fid", max_mapping_fid, 1);
 
     std::fill(covarianceDiagonal.begin(), covarianceDiagonal.end(), 0);
     overridePublishedCovariance = nh.getParam("covariance_diagonal", covarianceDiagonal);
@@ -551,6 +553,8 @@ bool Map::saveMap(std::string filename) {
         tf2::Vector3 trans = f.pose.transform.getOrigin();
         double rx, ry, rz;
         f.pose.transform.getBasis().getRPY(rx, ry, rz);
+
+        if(f.id > max_mapping_fid) continue; //skip out side id
 
         fprintf(fp, "%d %lf %lf %lf %lf %lf %lf %lf %d", f.id, trans.x(), trans.y(), trans.z(),
                 rad2deg(rx), rad2deg(ry), rad2deg(rz), f.pose.variance, f.numObs);
