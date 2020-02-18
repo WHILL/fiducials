@@ -115,6 +115,7 @@ Map::Map(ros::NodeHandle &nh) : tfBuffer(ros::Duration(30.0)) {
     nh.param<bool>("publish_6dof_pose", publish_6dof_pose, false);
     nh.param<bool>("read_only_map", readOnly, false);
     nh.param<int>("max_mapping_fid", max_mapping_fid, 1);
+    nh.param<bool>("enable_save_at_node_down", isEnableSaveAtDown, false);
 
     std::fill(covarianceDiagonal.begin(), covarianceDiagonal.end(), 0);
     overridePublishedCovariance = nh.getParam("covariance_diagonal", covarianceDiagonal);
@@ -536,6 +537,10 @@ void Map::handleAddFiducial(const std::vector<Observation> &obs) {
 }
 
 // save map to file
+
+bool Map::saveMapAtDown() {
+    if(isEnableSaveAtDown) saveMap();
+}
 
 bool Map::saveMap() { return saveMap(mapFilename); }
 

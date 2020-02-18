@@ -121,6 +121,7 @@ public:
 
     bool isInitializingMap;
     bool readOnly;
+    bool isEnableSaveAtDown;
     int frameNum;
     int initialFrameNum;
     int originFid;
@@ -149,6 +150,7 @@ public:
 
     bool loadMap();
     bool loadMap(std::string filename);
+    bool saveMapAtDown();
     bool saveMap();
     bool saveMap(std::string filename);
 

@@ -137,7 +137,8 @@ FiducialSlam::FiducialSlam(ros::NodeHandle &nh) : fiducialMap(nh) {
 auto node = unique_ptr<FiducialSlam>(nullptr);
 
 void mySigintHandler(int sig) {
-    if (node != nullptr) node->fiducialMap.saveMap();
+
+    if (node != nullptr) node->fiducialMap.saveMapAtDown();
 
     ros::shutdown();
 }
