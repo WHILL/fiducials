@@ -110,7 +110,8 @@ public:
     bool reloadCallback(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res);
     bool saveCallback(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res);
 
-    std::string mapFilename;
+    std::string loadMapFilename;
+    std::string saveMapFilename;
     std::string mapFrame;
     std::string odomFrame;
     std::string cameraFrame;

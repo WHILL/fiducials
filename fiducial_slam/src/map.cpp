@@ -114,7 +114,7 @@ Map::Map(ros::NodeHandle &nh) : tfBuffer(ros::Duration(30.0)) {
     nh.param<double>("future_date_transforms", future_date_transforms, 0.1);
     nh.param<bool>("publish_6dof_pose", publish_6dof_pose, false);
     nh.param<bool>("read_only_map", readOnly, false);
-    nh.param<int>("max_mapping_fid", max_mapping_fid, 1);
+    nh.param<int>("max_mapping_fid", max_mapping_fid, 11);
     nh.param<bool>("enable_save_at_node_down", isEnableSaveAtDown, false);
 
     std::fill(covarianceDiagonal.begin(), covarianceDiagonal.end(), 0);
@@ -134,10 +134,13 @@ Map::Map(ros::NodeHandle &nh) : tfBuffer(ros::Duration(30.0)) {
     // set -ve to never use
     nh.param<double>("multi_error_theshold", multiErrorThreshold, -1);
 
-    nh.param<std::string>("map_file", mapFilename,
+    nh.param<std::string>("map_file", loadMapFilename,
+                          std::string(getenv("HOME")) + "/.ros/slam/map.txt");
+    nh.param<std::string>("save_map_file", saveMapFilename,
                           std::string(getenv("HOME")) + "/.ros/slam/map.txt");
 
-    boost::filesystem::path mapPath(mapFilename);
+
+    boost::filesystem::path mapPath(loadMapFilename);
     boost::filesystem::path dir = mapPath.parent_path();
     boost::filesystem::create_directories(dir);
 
@@ -542,7 +545,7 @@ bool Map::saveMapAtDown() {
     if(isEnableSaveAtDown) saveMap();
 }
 
-bool Map::saveMap() { return saveMap(mapFilename); }
+bool Map::saveMap() { return saveMap(saveMapFilename); }
 
 bool Map::saveMap(std::string filename) {
     ROS_INFO("Saving map with %d fiducials to file %s\n", (int)fiducials.size(), filename.c_str());
@@ -575,7 +578,7 @@ bool Map::saveMap(std::string filename) {
 
 // Load map from file
 
-bool Map::loadMap() { return loadMap(mapFilename); }
+bool Map::loadMap() { return loadMap(loadMapFilename); }
 
 bool Map::loadMap(std::string filename) {
     int numRead = 0;
