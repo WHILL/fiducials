@@ -131,7 +131,7 @@ FiducialSlam::FiducialSlam(ros::NodeHandle &nh) : fiducialMap(nh) {
         ft_sub = nh.subscribe("fiducial_transforms", 1, &FiducialSlam::transformCallback, this);
     }
 
-    ROS_INFO("Fiducial Slam ready");
+    ROS_DEBUG("Fiducial Slam ready");
 }
 
 auto node = unique_ptr<FiducialSlam>(nullptr);
